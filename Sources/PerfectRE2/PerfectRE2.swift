@@ -15,8 +15,8 @@ public class RE2 {
     let match = UnsafeMutablePointer<cre2_string_t>.allocate(capacity: matches)
     let ranges = UnsafeMutablePointer<cre2_range_t>.allocate(capacity: matches)
     defer { 
-      match.deallocate(capacity: matches) 
-      ranges.deallocate(capacity: matches)
+      match.deallocate() 
+      ranges.deallocate()
     }
     guard 0 != cre2_match_ex(ref, text, Int32(text.count), 
       Int32(r.lowerBound), Int32(r.upperBound), 
@@ -42,7 +42,7 @@ public class RE2 {
        return results
     }
     let match = UnsafeMutablePointer<cre2_string_t>.allocate(capacity: matches)
-    defer { match.deallocate(capacity: matches) }
+    defer { match.deallocate() }
     let retval = cre2_easy_match(pattern, Int32(pattern.count), 
       text, Int32(text.count), match, Int32(matches))
     guard retval == 1, let copy = cre2_strings_duplicate(match, Int32(matches))
